@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const express = require('express');
 const app = express();
+const serveStatic = require("serve-static")
+const path = require('path');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 
@@ -13,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 // FRONTEND
-app.use(express.static(__dirname + '/'))
+app.use(serveStatic(path.join(__dirname, 'dist')));
 // ROUTES
 app.use(require('./src/routes/index'))
 // PORT
