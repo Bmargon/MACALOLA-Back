@@ -1,0 +1,25 @@
+{
+  "name": "shana-server",
+  "version": "1.0.0",
+  "description": "Backend para Ecommerce",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mariadelsequero@bitbucket.org/mariadelsequero/server.git"
+  },
+  "keywords": [
+    "backend",
+    "node",
+    "js",
+    "ecommerce"
+  ],
+  "author": "Bruno Martínez González",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/mariadelsequero/server#readme"
+}
