@@ -20,7 +20,7 @@ app.get(/.*/, (req, res) => {
     res.sendFile(__dirname + '/public/index.html')
 })
 // ROUTES
-app.use(require('./src/routes/index'))
+// app.use(require('./src/routes/index'))
 // PORT
 app.listen(process.env.PORT, () => {
     console.log('escuchando en puerto 3000');
