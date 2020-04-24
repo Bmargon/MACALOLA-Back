@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 // FRONTEND
-app.use(express.static( __dirname + '/public'))
+app.use(express.static(__dirname + '/'))
 // ROUTES
 app.use(require('./src/routes/index'))
 // PORT
