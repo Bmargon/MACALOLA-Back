@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
+app.post('/user', (req, res) => {
 
-    res.send('Holaaaaa')
+    // let body = req.body
     
 })
 
