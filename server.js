@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 // FRONTEND
-app.use(serveStatic(path.join(__dirname, 'public')));
+app.get(/.*/)
+app.use(serveStatic(path.resolve(__dirname, 'public/index.html')));
 // ROUTES
 app.use(require('./src/routes/index'))
 // PORT
