@@ -7,6 +7,7 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 
+app.use('/', serveStatic(path.join(__dirname, '/public')))
 // DB CONEXION
 mongoose.connect(process.env.DB , {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -15,7 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 // FRONTEND
-app.use('/', serveStatic(path.join(__dirname, '/public')))
 
 // ROUTES
 app.use(require('./src/routes/index'))
