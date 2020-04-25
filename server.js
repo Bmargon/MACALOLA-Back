@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public/'))
 app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 // DB CONEXION
-mongoose.connect(process.env.DB , {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGODB_URI , {useNewUrlParser: true, useUnifiedTopology: true});
 // PORT
 app.listen(process.env.PORT, () => {
     console.log('escuchando en puerto 3000');
