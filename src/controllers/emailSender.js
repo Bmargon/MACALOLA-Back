@@ -1,8 +1,10 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-let emailSender = (to) => {
-  const template = ``
+
+let template = ``
+
+const emailSender = (to) => {
 
   const email = {
     to,
@@ -15,5 +17,5 @@ let emailSender = (to) => {
 
 
 module.exports = {
-
+  emailSender
 }
