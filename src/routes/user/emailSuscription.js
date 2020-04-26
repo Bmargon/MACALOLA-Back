@@ -6,7 +6,7 @@ app.post('/suscription', (req, res) => {
 
   addToSuscriptionList(req.body.email).then( (data) => {
 
-    if (data.status == 400) {
+    if (data.title == 'Member Exists') {
       reactivateToSuscriptionList(req.body.email).then((data) => {
         res.status(200).json({
           success: true,

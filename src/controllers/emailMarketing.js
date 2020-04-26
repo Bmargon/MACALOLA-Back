@@ -7,9 +7,9 @@ const url = '/lists/811c613026/members'
 let addToSuscriptionList = async (email) => {
   
   try {
-    await mailchimp.post(url, {
+    return await mailchimp.post(url, {
       email_address: email,
-      status: 'pending',
+      status: 'subscribed',
       merge_fields: {
         'CTA': 'NEWCLIENT',
         'FNAME': '',
