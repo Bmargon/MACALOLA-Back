@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
-const {addToSuscriptionList, reactivateToSuscriptionList} = require('../../controllers/emailMarketing')
+const {addToSuscriptionList, reactivateToSuscriptionList, unsuscribeFromSuscriptionList} = require('../../controllers/emailMarketing')
 
+// SUSCRIBE
 app.post('/suscription', (req, res) => {
 
   addToSuscriptionList(req.body.email).then( (data) => {
@@ -36,6 +37,28 @@ app.post('/suscription', (req, res) => {
       success: false,
       err,
       message: 'No se pudo añadir a la lista correctamente'
+    })
+
+  })
+
+})
+// UNSUSCRIBE
+app.put('/suscription', (req, res) => {
+
+  unsuscribeFromSuscriptionList(req.body.email).then( (data) => {
+    
+    res.status(200).json({
+      success: true,
+      data,
+      message: 'Usuario desuscrito correctamente'
+    })
+
+  }).catch((err) => {
+
+    res.status(406).json({
+      success: false,
+      err,
+      message: 'No se pudo desuscribir al usuario'
     })
 
   })

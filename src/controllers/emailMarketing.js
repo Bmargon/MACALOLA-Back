@@ -39,8 +39,25 @@ let reactivateToSuscriptionList = async (email) => {
   }
 }
 
+let unsuscribeFromSuscriptionList = async (email) => {
+
+  let hash = md5(email)
+  url2 = url +'/'+ hash
+  console.log(url2);
+  try {
+    return await mailchimp.put(url2, {
+      email_address: email,
+      status: 'unsubscribed',
+      }
+    )
+  } catch (error) {
+    return error
+  }
+}
+
 
 module.exports = {
   addToSuscriptionList,
-  reactivateToSuscriptionList
+  reactivateToSuscriptionList,
+  unsuscribeFromSuscriptionList
 }

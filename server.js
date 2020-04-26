@@ -6,12 +6,12 @@ const app = express();
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 //app.use(sslRedirect())
+// parse application/json
 app.use(bodyParser.json())
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // ROUTES
 app.use(require('./src/routes/index'))
-// parse application/x-www-form-urlencoded
-// parse application/json
 // FRONTEND
 app.use(express.static(__dirname + '/public/'))
 app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
