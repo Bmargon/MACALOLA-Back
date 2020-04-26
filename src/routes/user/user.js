@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const User = require('../../models/userModel')
 const bcrypt = require('bcrypt');
-
+const { addToSuscriptionList } = require('../../controllers/emailMarketing')
 // CREATE NEW USER
 app.post('/user', (req, res) => {
 
@@ -27,6 +27,15 @@ app.post('/user', (req, res) => {
                 success: false,
                 err,
                 message: 'Ha ocurrido un error al crear el usuario'
+            })
+        }
+        if (userDB.subscribe) {
+            addToSuscriptionList(userDB.email).catch((err) => {
+                res.status(503).json({
+                    success: false,
+                    err,
+                    message: 'No se pudo añadir a la lista de suscripcin'
+                })
             })
         }
         res.status(201).json({
