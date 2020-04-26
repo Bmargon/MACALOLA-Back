@@ -26,7 +26,27 @@ app.post('/login', (req, res) => {
       })
     }
 
+    if (!userDB.active) {
+      return res.status(406).json({
+        success: false,
+        err,
+        message: 'Por motivos de seguridad su usuario ha sido desactivado'
+      })
+    }
+
     if (!bcrypt.compareSync(body.password, userDB.password)) {
+      
+      if (userDB.tries === 0 ){
+        userDB.active = false
+        userDB.save()
+        return res.status(406).json({
+          success: false,
+          message: 'Por motivos de seguridad su usuario ha sido desactivado'
+        })
+      }
+      userDB.tries -= 1;
+      userDB.save()
+
       return res.status(502).json({
         success: false,
         message: 'Los campos son incorrectos'
