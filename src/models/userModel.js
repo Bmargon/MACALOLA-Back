@@ -19,7 +19,8 @@ const User = Schema({
     role: {type: String, enum: roles, default: 'USER'},
     invoices: {type: Array},
     active: {type: Boolean, default: true},
-    tries: {type: Number, default: 5}
+    tries: {type: Number, default: 5},
+    stripeID: {type: String},
 })
 
 module.exports = mongoose.model('User', User)
