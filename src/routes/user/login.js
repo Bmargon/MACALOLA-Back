@@ -3,7 +3,7 @@ const app = express();
 const User = require('../../models/userModel')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const {bloackedAccountEmail} = require('../../controllers/emailSender')
 app.post('/login', (req, res) => {
 
   let body = req.body
@@ -37,6 +37,7 @@ app.post('/login', (req, res) => {
     if (!bcrypt.compareSync(body.password, userDB.password)) {
       
       if (userDB.tries === 0 ){
+        bloackedAccountEmail(userDB.email)
         userDB.active = false
         userDB.save()
         return res.status(406).json({

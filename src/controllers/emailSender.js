@@ -28,8 +28,29 @@ const recoveryPasswordEmail = (to, token) => {
         <a href="localhost:3000/recovery?token=${token}">localhost:3000/recovery?token=${token}</a>
       </p>
       <br>
+    </div>
+  `
+  const email = {
+    to,
+    from: 'macalola@macalola.com',
+    subject: 'Recovery Password',
+    html: template
+  }
 
-      
+  sgMail.send(email);
+}
+const bloackedAccountEmail = (to) => {
+  
+  let template = `
+      <div>
+      <h1>Macalola</h1>
+      <br>
+      <h2>Cuenta bloqueada</h2>
+      <br>
+      <p>Por motivos de seguridad su cuenta ha sido bloqueada, porfavor, restaurela a través de la página de inicio de sesión</p>
+      <p>
+      </p>
+      <br>
     </div>
   `
   const email = {
@@ -45,5 +66,6 @@ const recoveryPasswordEmail = (to, token) => {
 
 module.exports = {
   welcomeEmial,
-  recoveryPasswordEmail
+  recoveryPasswordEmail,
+  bloackedAccountEmail
 }
