@@ -3,6 +3,7 @@ const app = express();
 const User = require('../../models/userModel')
 const bcrypt = require('bcrypt');
 const { addToSuscriptionList } = require('../../controllers/emailMarketing')
+const {addStripeCostumer} = require('../../controllers/stripeNewCustomer')
 // CREATE NEW USER
 app.post('/user', (req, res) => {
 
@@ -38,6 +39,16 @@ app.post('/user', (req, res) => {
                 })
             })
         }
+        addStripeCostumer(userDB).then((user) => {
+            console.log('usuario', userDB);
+            console.log('usuario añadido a stripe', user);
+        }).catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: 'El susuario no se pudo añadir a stripe'
+            })
+        })
+
         res.status(201).json({
             success: true,
             message: 'Usuario creado correctamente'
