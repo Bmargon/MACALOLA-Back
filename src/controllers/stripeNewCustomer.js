@@ -20,14 +20,6 @@ const addStripeCostumer = async (user) => {
       //     state: user.adressInvoicing.state
       //   },
       // },
-      // address: {
-      //   line1: user.adressInvoicing.line1,
-      //   line2: user.adressInvoicing.line2,
-      //   city: user.adressInvoicing.city,
-      //   country: user.adressInvoicing.country,
-      //   postal_code: user.adressInvoicing.postal_code,
-      //   state: user.adressInvoicing.state
-      // }
     })
   } catch (error) {
     return new Error('No se pudo crear stripe user', error);

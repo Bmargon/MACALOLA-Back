@@ -41,23 +41,15 @@ const recoveryPasswordEmail = (to, token) => {
 }
 const bloackedAccountEmail = (to) => {
   
-  let template = `
-      <div>
-      <h1>Macalola</h1>
-      <br>
-      <h2>Cuenta bloqueada</h2>
-      <br>
-      <p>Por motivos de seguridad su cuenta ha sido bloqueada, porfavor, restaurela a través de la página de inicio de sesión</p>
-      <p>
-      </p>
-      <br>
-    </div>
-  `
   const email = {
     to,
     from: 'macalola@macalola.com',
     subject: 'Recovery Password',
-    html: template
+    templateId: '1f70949f-969f-4dc0-999c-d03497f6d5e8',
+
+    dynamic_template_data: {
+      link: 'google.es',
+    }
   }
 
   sgMail.send(email);
