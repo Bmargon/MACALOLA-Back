@@ -74,5 +74,23 @@ app.put('/category/:id', authorizationAdmin, (req, res) => {
     })
   })
 })
+app.delete('/category/:id', authorizationAdmin, (req, res) => {
+  
+  let id = req.params.id
+
+  Category.findByIdAndRemove(id, (err, categoryDB) => {
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Error al borrar ls categoria'
+      })
+    }
+    res.status(201).json({
+      success: true,
+      message: 'Categoria borrada correctamente'
+    })
+  })
+})
 
 module.exports = app
