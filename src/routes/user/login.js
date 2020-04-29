@@ -53,7 +53,8 @@ app.post('/login', (req, res) => {
         message: 'Los campos son incorrectos'
       })
     }
-
+    userDB.tries = 5;
+    userDB.save()
     let token = jwt.sign({user: userDB}, process.env.AUTHORIZATION, {expiresIn: '2h'})
 
     res.status(200).json({
