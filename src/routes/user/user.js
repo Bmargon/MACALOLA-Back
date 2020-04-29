@@ -19,7 +19,7 @@ app.post('/user', (req, res) => {
     adress: body.adress,
     tlf: body.tlf,
     subscribe: body.subscribe,
-    role: body.role
+    role: body.role || 'USER'
   })
 
   user.save((err, userDB) => {

@@ -26,11 +26,53 @@ app.post('/category', authorizationAdmin, (req, res) => {
       message: 'Categoria creada correctamente'
     })
   })
-
+  
 })
 
 app.get('/category', (req, res) => {
+  
+  Category.find({}, (err, categoryDB) => {
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Error al obtener las categorias'
+      })
+    }
+    if (!categoryDB) {
+      return res.status(404).json({
+        success: false,
+        err,
+        message: 'No existen categorias'
+      })
+    }
+    res.status(201).json({
+      success: true,
+      categoryDB,
+      message: 'Categoria encontradas correctamente'
+    })
+    
+  })
+})
+app.put('/category/:id', authorizationAdmin, (req, res) => {
+  
+  let id = req.params.id
+  let body = req.body
 
+  Category.findByIdAndUpdate(id, body, {new: true}, (err, categoryDB) => {
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Error al actualizar las categorias'
+      })
+    }
+    res.status(201).json({
+      success: true,
+      categoryDB,
+      message: 'Categoria actualizada correctamente'
+    })
+  })
 })
 
 module.exports = app

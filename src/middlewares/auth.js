@@ -33,7 +33,6 @@ const authorizationAdmin =  (req, res, next) => {
         message: 'Error, token no valido'
       })
     }
-    console.log('decode', decoded);
     if (decoded.user.role !== 'ADMIN') {
       return res.status(401).json({
         success: false,
