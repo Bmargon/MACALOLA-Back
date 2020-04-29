@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const Order = Schema({
   total: { type: Number, required: true},
+  stripeReference: { type: Number, required: true},
   shipping: { type: Object},
   products: { type: Array},
   freeShipping: { type: Boolean, default: false},

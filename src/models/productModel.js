@@ -8,7 +8,6 @@ const Product = Schema({
   name: {type: String, require: true},
   purchasePrice: {type: Number, require: true},
   salePrice: {type: Number, require: true},
-  salePrice: {type: Number, require: true},
   percentage: {type: Number},
   promotionOn: {type: Boolean, default: false},
   referenceNumberCommon: {type: String, require: true, unique: true},
