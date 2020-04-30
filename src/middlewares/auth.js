@@ -22,10 +22,17 @@ const authorization =  (req, res, next) => {
 
 const authorizationAdmin =  (req, res, next) => {
 
-  let token = req.get('token')
+  let token = req.headers.authorization
 
   jwt.verify(token, process.env.AUTHORIZATION, (err, decoded) => {
 
+    if (!token) {
+      return res.status(404).json({
+        success: false,
+        err,
+        message: 'El token no existe'
+      })
+    }
     if (err) {
       return res.status(406).json({
         success: false,
