@@ -147,7 +147,7 @@ app.post('/product', [authorizationAdmin, multer({storage}).single('img')], asyn
     promotionOn:  body.promotionOn,
     referenceNumberCommon: body.referenceNumberCommon,
     description: body.description,
-    stock: body.stock,
+    stock: JSON.parse(body.stock),
     totalStock: body.totalStock,
     accesory: body.accesory,
     img: result.url,
@@ -202,7 +202,7 @@ app.put('/product/:ref',  [authorizationAdmin, multer({storage}).single('img')] 
     productDB.percentage = body.percentage
     productDB.promotionOn =  body.promotionOn
     productDB.description = body.description
-    productDB.stock = body.stock
+    productDB.stock = JSON.parse(body.stock)
     productDB.totalStock = body.totalStock
     productDB.accesory = body.accesory
     productDB.category = body.category
