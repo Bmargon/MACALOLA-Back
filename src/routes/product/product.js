@@ -14,13 +14,13 @@ cloudinary.config({
 })
 
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, '/uploads'),
+  destination: path.join(__dirname, '../../uploads'),
   filename: (req, file, cb) => {
     cb(null, new Date().getTime() + path.extname(file.originalname))
   }
 })
 
-app.get('/product', async (req, res) => {
+app.get('/product',authorizationAdmin, async (req, res) => {
 
   let from = req.query.from || 0
 
@@ -65,10 +65,9 @@ app.get('/product', async (req, res) => {
 
 })
 
-app.get('/product/:ref', async (req, res) => {
+app.get('/product/:ref', authorizationAdmin, async (req, res) => {
 
   let ref = req.params.ref
-
 
   Product.find({referenceNumberCommon: ref}, (err, productDB) => {
     if (err) {
@@ -90,12 +89,46 @@ app.get('/product/:ref', async (req, res) => {
     return res.status(200).json({
       success: true,
       productDB,
-      message: 'Producto:'
+      message: 'Producto'
     })
 
   })
 
 })
+// Delete
+app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
+
+  let ref = req.params.ref
+
+
+  Product.find({referenceNumberCommon: ref}, (err, productDB) => {
+
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Ha ocurrido un error crear al borrar el producto'
+      })
+    }
+    Product.findOneAndRemove(productDB._id, (err, productDB) => {
+      if (err) {
+        return res.status(502).json({
+          success: false,
+          err,
+          message: 'Ha ocurrido un error crear al borrar el producto'
+        })
+      }
+      return res.status(200).json({
+        success: true,
+        productDB,
+        message: 'Producto borrado'
+      })
+    })
+
+  })
+
+})
+// POST 
 
 app.post('/product', [authorizationAdmin, multer({storage}).single('img')], async (req, res) => {
 
@@ -142,4 +175,67 @@ app.post('/product', [authorizationAdmin, multer({storage}).single('img')], asyn
   })
 })
 
+
+// PUT
+
+app.put('/product/:ref',  [authorizationAdmin, multer({storage}).single('img')] , async (req, res) => {
+
+  let ref = req.params.ref
+  let body = req.body
+  
+  Product.findOne({referenceNumberCommon: ref}, async (err, productDB) => {
+    if (req.file) {
+      let result
+      await cloudinary.v2.uploader.destroy(productDB.cloudinary_id)
+      result = await cloudinary.v2.uploader.upload(req.file.path)
+      productDB.img = result.url
+      productDB.cloudinary_id = result.public_id
+      await fs.unlink(req.file.path)
+    }
+
+    productDB.provider = body.provider
+    productDB.buyDate = body.buyDate
+    productDB.season = body.season,
+    productDB.name = body.name
+    productDB.purchasePrice = body.purchasePrice
+    productDB.salePrice = body.salePrice
+    productDB.percentage = body.percentage
+    productDB.promotionOn =  body.promotionOn
+    productDB.description = body.description
+    productDB.stock = body.stock
+    productDB.totalStock = body.totalStock
+    productDB.accesory = body.accesory
+    productDB.category = body.category
+
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Ha ocurrido un error al actualizar el producto 1'
+      })
+    }
+
+    await productDB.save((err, product) => {
+      if (err) {
+        return res.status(502).json({
+          success: false,
+          err,
+          message: 'Ha ocurrido un error al actualizar el producto 2'
+        })
+      }
+      if (!product) {
+        return res.status(502).json({
+          success: false,
+          err,
+          message: 'Ha ocurrido un error al actualizar el producto 3'
+        })
+      }
+      return res.status(200).json({
+        success: false,
+        message: 'producto actualizado ok'
+      })
+    })
+
+  })
+})
 module.exports = app
