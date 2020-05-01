@@ -20,6 +20,83 @@ const storage = multer.diskStorage({
   }
 })
 
+app.get('/product', async (req, res) => {
+
+  let from = req.query.from || 0
+
+  Product.find({}, 'name promotionOn referenceNumberCommon totalStock accesory category img')
+  .skip(from)
+  .limit(20)
+  .populate('category', 'name')
+  .exec((err, productDB) => {
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Ha ocurrido un error crear al obtener los productos'
+      })
+    }
+    if (!productDB) {
+      return res.status(404).json({
+        success: false,
+        err,
+        message: 'No se han encontrado productos'
+      })
+    }
+
+    Product.count({}, (err, total) => {
+      if (err) {
+        return res.status(502).json({
+          success: false,
+          err,
+          message: 'Ha ocurrido un error crear al contar el total de productos'
+        })
+      }
+
+        return res.status(200).json({
+          total,
+          success: true,
+          productDB,
+          message: 'Productos encontrados:'
+        })
+      })
+
+    })
+
+})
+
+app.get('/product/:ref', async (req, res) => {
+
+  let ref = req.params.ref
+
+
+  Product.find({referenceNumberCommon: ref}, (err, productDB) => {
+    if (err) {
+      return res.status(502).json({
+        success: false,
+        err,
+        message: 'Ha ocurrido un error crear al obtener el producto'
+      })
+    }
+    if (!productDB) {
+      return res.status(404).json({
+        success: false,
+        err,
+        message: 'El producto no existe'
+      })
+
+    }
+
+    return res.status(200).json({
+      success: true,
+      productDB,
+      message: 'Producto:'
+    })
+
+  })
+
+})
+
 app.post('/product', [authorizationAdmin, multer({storage}).single('img')], async (req, res) => {
 
   let body = req.body
@@ -56,7 +133,7 @@ app.post('/product', [authorizationAdmin, multer({storage}).single('img')], asyn
         message: 'Ha ocurrido un error al crear el producto'
       })
     }
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       productDB,
       message: 'Producto creado correctamente'
