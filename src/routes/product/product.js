@@ -101,7 +101,7 @@ app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
   let ref = req.params.ref
 
 
-  Product.find({referenceNumberCommon: ref}, (err, productDB) => {
+  Product.find({referenceNumberCommon: ref}, async (err, productDB) => {
 
     if (err) {
       return res.status(502).json({
@@ -110,6 +110,9 @@ app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
         message: 'Ha ocurrido un error crear al borrar el producto'
       })
     }
+    
+    await cloudinary.v2.uploader.destroy(productDB.cloudinary_id)
+
     Product.findOneAndRemove(productDB._id, (err, productDB) => {
       if (err) {
         return res.status(502).json({
