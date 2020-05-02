@@ -3,52 +3,49 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 
-const welcomeEmial = (to) => {
+const welcomeEmial = (to, name) => {
   
-  let template = ``
+  let template = 'd-ff8a8d93b72047ea948d2904cc79dbaf'
   const email = {
     to,
     from: 'macalola@macalola.com',
-    subject: 'Sending with SendGrid is Fun',
-    html: template
+    subject: 'Bienvenida a Macalola!',
+    templateId: template,
+    dynamic_template_data: {
+      name,
+      link: 'www.macalola.com',
+    }
   }
-
+  sgMail.send(email);
 }
 
 const recoveryPasswordEmail = (to, token) => {
   
-  let template = `
-      <div>
-      <h1>Macalola</h1>
-      <br>
-      <h2>Recuperación de contraseñas</h2>
-      <br>
-      <p>Tenemos registrada una solicitud para el reseteo de contraseña, haga click en el siguiente enlace</p>
-      <p>
-        <a href="localhost:3000/recovery?token=${token}">localhost:3000/recovery?token=${token}</a>
-      </p>
-      <br>
-    </div>
-  `
+  let template = 'd-22407b1db24645769e2a57a539a638ca'
   const email = {
     to,
     from: 'macalola@macalola.com',
     subject: 'Recovery Password',
-    html: template
+    templateId: template,
+    dynamic_template_data: {
+      link: 'www.macalola.com/recovery?token=' + token,
+    }
   }
 
   sgMail.send(email);
 }
 const bloackedAccountEmail = (to) => {
-  
+
+  const template = 'd-b359d1aac966470a959411a2e7110d89'
+
   const email = {
     to,
     from: 'macalola@macalola.com',
-    subject: 'Recovery Password',
-    templateId: '1f70949f-969f-4dc0-999c-d03497f6d5e8',
+    subject: 'Cuenta bloqueada - Macalola',
+    templateId: template,
 
     dynamic_template_data: {
-      link: 'google.es',
+      link: 'www.google.es',
     }
   }
 

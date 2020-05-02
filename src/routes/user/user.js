@@ -3,7 +3,8 @@ const app = express();
 const User = require('../../models/userModel')
 const bcrypt = require('bcrypt');
 const { addToSuscriptionList } = require('../../controllers/emailMarketing')
-const {addStripeCostumer} = require('../../controllers/stripeNewCustomer')
+const { addStripeCostumer } = require('../../controllers/stripeNewCustomer')
+const { welcomeEmial } = require('../../controllers/emailSender')
 // CREATE NEW USER
 app.post('/user', (req, res) => {
 
@@ -49,6 +50,7 @@ app.post('/user', (req, res) => {
         message: 'El susuario no se pudo añadir a stripe'
       })
     })
+    welcomeEmial(userDB.email, userDB.name)
 
     res.status(201).json({
       success: true,

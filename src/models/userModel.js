@@ -19,6 +19,7 @@ const User = Schema({
     subscribe: {type: Boolean, default: false},
     role: {type: String, enum: roles, default: 'USER'},
     invoices: {type: Array},
+    wishList: {type: Array},
     active: {type: Boolean, default: true},
     tries: {type: Number, default: 5},
     stripeID: {type: String},

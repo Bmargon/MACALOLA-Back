@@ -26,7 +26,7 @@ app.get('/product',authorizationAdmin, async (req, res) => {
 
   Product.find({}, 'name promotionOn referenceNumberCommon totalStock accesory category img')
   .skip(from)
-  .limit(20)
+  .limit(19)
   .populate('category', 'name')
   .exec((err, productDB) => {
     if (err) {
@@ -101,7 +101,7 @@ app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
   let ref = req.params.ref
 
 
-  Product.find({referenceNumberCommon: ref}, async (err, productDB) => {
+  Product.findOne({referenceNumberCommon: ref}, async (err, productDB) => {
 
     if (err) {
       return res.status(502).json({
@@ -112,8 +112,8 @@ app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
     }
     
     await cloudinary.v2.uploader.destroy(productDB.cloudinary_id)
-
-    Product.findOneAndRemove(productDB._id, (err, productDB) => {
+    
+    Product.findByIdAndRemove(productDB._id, (err, productDB) => {
       if (err) {
         return res.status(502).json({
           success: false,
@@ -129,7 +129,6 @@ app.delete('/product/:ref', authorizationAdmin, async (req, res) => {
     })
 
   })
-
 })
 // POST 
 
