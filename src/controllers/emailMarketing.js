@@ -20,7 +20,6 @@ let addToSuscriptionList = async (email) => {
   } catch (error) {
     return error
   } 
-
 }
 
 let reactivateToSuscriptionList = async (email) => {
