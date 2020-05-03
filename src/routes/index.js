@@ -7,5 +7,7 @@ app.use(require('./user/emailSuscription'))
 app.use(require('./user/resetPassword'))
 app.use(require('./category/category'))
 app.use(require('./product/product'))
+app.use(require('./product/getByCategory'))
+app.use(require('./contact/contact'))
 
 module.exports = app

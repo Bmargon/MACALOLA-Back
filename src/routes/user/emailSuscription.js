@@ -3,40 +3,43 @@ const app = express()
 const {addToSuscriptionList, reactivateToSuscriptionList, unsuscribeFromSuscriptionList} = require('../../controllers/emailMarketing')
 
 // SUSCRIBE
-app.post('/suscription', (req, res) => {
+app.post('/suscription', async (req, res) => {
 
-  addToSuscriptionList(req.body.email).then( (data) => {
-    if (data.title == 'Member Exists') {
-      reactivateToSuscriptionList(req.body.email).then((data) => {
+  let email = req.body.email
+  try {
+    let addEmail = await addToSuscriptionList(email)
+    return res.status(200).json({
+      success: true,
+      addEmail,
+      message: 'Usuario añadido a la lista de suscripcion'
+    })
+  } catch (error) {
+
+    if (error.title === 'Member Exists') {
+
+      try {
+
+        let response = await reactivateToSuscriptionList(email)
         return res.status(200).json({
           success: true,
-          data,
-          message: 'Usuario añadido a la lista de suscripcion de nuevo correctamente'
+          response,
+          message: 'Usuario añadido a la lista de suscripcion de nuevo'
         })
-      }).catch((err) => {
-        return res.status(406).json({
+      } catch (error) {
+        return res.status(500).json({
           success: false,
-          err,
-          message: 'No se pudo reactivar la suscripcion'
-        })
-      })
-    }
-    
-    else {
-      if(data.status = 400) {
-        return res.status(400).json({
-          success: false,
-          message: data.detail
+          error,
+          message: 'No se podido reactivar usuario'
         })
       }
-      return res.status(200).json({
-        success: true,
-        data,
-        message: 'Añadido a la lista de suscripcion ok'
-      })
     }
 
-  })
+    return res.status(500).json({
+      success: false,
+      error,
+      message: 'No se podido añadir usuario'
+    })
+  }
 
 })
 // UNSUSCRIBE

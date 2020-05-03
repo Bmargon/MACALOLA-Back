@@ -4,54 +4,44 @@ var md5 = require('md5');
 
 const url = '/lists/811c613026/members'
 
-let addToSuscriptionList = async (email) => {
+let addToSuscriptionList = (email) => {
   
-  try {
-    return await mailchimp.post(url, {
-      email_address: email,
-      status: 'subscribed',
-      merge_fields: {
-        'CTA': 'NEWCLIENT',
-        'FNAME': '',
-        'LNAME': '',
-        'BIRTHDAY': '',
-      }
-    })
-  } catch (error) {
-    return error
-  } 
+ 
+  return mailchimp.post(url, {
+    email_address: email,
+    status: 'subscribed',
+    merge_fields: {
+      'CTA': 'NEWCLIENT',
+      'FNAME': '',
+      'LNAME': '',
+      'BIRTHDAY': '',
+    }
+  })
+
 }
 
-let reactivateToSuscriptionList = async (email) => {
+let reactivateToSuscriptionList = (email) => {
 
   let hash = md5(email)
   url2 = url +'/'+ hash
-  console.log(url2);
-  try {
-    return await mailchimp.put(url2, {
-      email_address: email,
-      status: 'subscribed',
-      }
-    )
-  } catch (error) {
-    return error
-  }
+  return mailchimp.put(url2, {
+    email_address: email,
+    status: 'subscribed',
+    }
+  )
 }
 
-let unsuscribeFromSuscriptionList = async (email) => {
+let unsuscribeFromSuscriptionList = (email) => {
 
   let hash = md5(email)
   url2 = url +'/'+ hash
-  console.log(url2);
-  try {
-    return await mailchimp.put(url2, {
-      email_address: email,
-      status: 'unsubscribed',
-      }
-    )
-  } catch (error) {
-    return error
-  }
+
+  mailchimp.put(url2, {
+    email_address: email,
+    status: 'unsubscribed',
+    }
+  )
+
 }
 
 

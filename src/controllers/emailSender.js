@@ -51,10 +51,26 @@ const bloackedAccountEmail = (to) => {
 
   sgMail.send(email);
 }
+const contactRequest = (body) => {
+
+  const email = {
+    to: 'at.cliente@macalola.com',
+    from: 'macalola@macalola.com',
+    subject: 'Solicitud de ATT',
+    html: `
+      <p>El siguiente mensaje ha sido enviado por ${body.name} ${body.surname} con la siguiente consulta:</p>
+      <hr>
+      ${body.message}
+    `
+  }
+
+  return sgMail.send(email);
+}
 
 
 module.exports = {
   welcomeEmial,
   recoveryPasswordEmail,
-  bloackedAccountEmail
+  bloackedAccountEmail,
+  contactRequest
 }
