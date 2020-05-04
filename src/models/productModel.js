@@ -16,7 +16,7 @@ const Product = Schema({
   totalStock: {type: Number},
   accesory: {type: Boolean},
   img: {type: String, require: true},
-  imgs: {type: Array, require: false, default: []},
+  imgs: {type: Array, require: false},
   cloudinary_id: {type: String},
   category: { type: Schema.Types.ObjectId, ref: 'Category'}
 })
