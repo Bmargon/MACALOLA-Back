@@ -1,12 +1,10 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
-//const sslRedirect = require('heroku-ssl-redirect')
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 
-//app.use(sslRedirect())
 app.use(function (req, res, next) {
     /*var err = new Error('Not Found');
      err.status = 404;
