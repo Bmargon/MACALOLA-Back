@@ -6,7 +6,7 @@ const { addToSuscriptionList } = require('../../controllers/emailMarketing')
 const { addStripeCostumer } = require('../../controllers/stripeNewCustomer')
 const { welcomeEmial } = require('../../controllers/emailSender')
 // CREATE NEW USER
-app.post('/user', (req, res) => {
+app.post('/user', (req, res, next) => {
 
   let body = req.body
   
@@ -23,6 +23,7 @@ app.post('/user', (req, res) => {
     role: body.role || 'USER'
   })
 
+  
   user.save((err, userDB) => {
     if (err) {
       return res.status(500).json({
@@ -31,13 +32,18 @@ app.post('/user', (req, res) => {
         message: 'Ha ocurrido un error al crear el usuario'
       })
     }
-    if (userDB.subscribe) {
-      addToSuscriptionList(userDB.email).catch((err) => {
-        res.status(503).json({
-          success: false,
-          err,
-          message: 'No se pudo añadir a la lista de suscripcin'
-        })
+    
+    if (body.subscribe) {
+      addToSuscriptionList(body.email).then(() => {
+        next()
+      }).catch((err) => {
+        if (err) {
+          res.status(503).json({
+            success: false,
+            err,
+            message: 'No se pudo añadir a la lista de suscripcin'
+          })
+        }
       })
     }
     addStripeCostumer(userDB).then((user) => {
