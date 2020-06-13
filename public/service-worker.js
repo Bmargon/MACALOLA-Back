@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.346ad181d7de7e01d47822090626e8b2.js"
+  "/precache-manifest.2e4e34614ae1d5a5efe584d6e812281e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "macalola"});
