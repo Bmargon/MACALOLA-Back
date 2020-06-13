@@ -8,7 +8,7 @@ app.post('/category', authorizationAdmin, (req, res) => {
   let body = req.body
 
   let category = new Category({
-    name: body.name,
+    name: body.name.toUpperCase(),
     referenceNumber: body.referenceNumber,
   })
 
@@ -54,26 +54,26 @@ app.get('/category', (req, res) => {
     
   })
 })
-app.put('/category/:id', authorizationAdmin, (req, res) => {
+// app.put('/category/:id', authorizationAdmin, (req, res) => {
   
-  let id = req.params.id
-  let body = req.body
+//   let id = req.params.id
+//   let body = req.body
 
-  Category.findByIdAndUpdate(id, body, {new: true}, (err, categoryDB) => {
-    if (err) {
-      return res.status(502).json({
-        success: false,
-        err,
-        message: 'Error al actualizar las categorias'
-      })
-    }
-    res.status(201).json({
-      success: true,
-      categoryDB,
-      message: 'Categoria actualizada correctamente'
-    })
-  })
-})
+//   Category.findByIdAndUpdate(id, body, {new: true}, (err, categoryDB) => {
+//     if (err) {
+//       return res.status(502).json({
+//         success: false,
+//         err,
+//         message: 'Error al actualizar las categorias'
+//       })
+//     }
+//     res.status(201).json({
+//       success: true,
+//       categoryDB,
+//       message: 'Categoria actualizada correctamente'
+//     })
+//   })
+// })
 app.delete('/category/:id', authorizationAdmin, (req, res) => {
   
   let id = req.params.id

@@ -65,7 +65,7 @@ app.get('/product',authorizationAdmin, async (req, res) => {
 
 })
 
-app.get('/product/:ref', authorizationAdmin, async (req, res) => {
+app.get('/product/:ref', async (req, res) => {
 
   let ref = req.params.ref
 
