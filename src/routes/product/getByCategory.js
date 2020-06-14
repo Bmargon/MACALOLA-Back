@@ -59,8 +59,8 @@ app.get('/bycategory/:cat', async (req, res) => {
           message: 'No hay productos'
         })
       }
-      
-      Product.count({}, (err, total) => {
+      // get the total of item
+      Product.find(query).count((err, total) => {
         if (err) {
           return res.status(404).json({
             success: false,
@@ -76,6 +76,7 @@ app.get('/bycategory/:cat', async (req, res) => {
         })
       })
     })
+
   })
 
 })

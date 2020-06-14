@@ -57,7 +57,7 @@ app.get('/product',authorizationAdmin, async (req, res) => {
           total,
           success: true,
           productDB,
-          message: 'Productos encontrados:'
+          message: 'Productos encontrados'
         })
       })
 

@@ -27,8 +27,7 @@ app.get('/offers', (req, res) => {
         message: 'No hay ofertas dispnibles'
       })
     }
-    
-    Product.count({}, (err, total) => {
+    Product.find({promotionOn: true}).count((err, total) => {
       if (err) {
         return res.status(404).json({
           success: false,
@@ -43,6 +42,7 @@ app.get('/offers', (req, res) => {
         message: 'Productos encontrados:'
       })
     })
+  
 
     
   })
