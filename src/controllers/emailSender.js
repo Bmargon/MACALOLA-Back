@@ -61,6 +61,10 @@ const contactRequest = (body) => {
       <p>El siguiente mensaje ha sido enviado por ${body.name} ${body.surname} con la siguiente consulta:</p>
       <hr>
       ${body.message}
+      <hr>
+      <p>
+      Email para su respuesta: ${body.email}
+      </p>
     `
   }
 
