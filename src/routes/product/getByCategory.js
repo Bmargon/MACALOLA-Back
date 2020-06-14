@@ -7,7 +7,10 @@ var ObjectId = mongoose.Types.ObjectId
 
 app.get('/bycategory/:cat', async (req, res) => {
 
+  let from = parseInt(req.query.from) || 0
+  let totalPerPage = parseInt(req.query.total) || 20
   Category.find({name: req.params.cat.toUpperCase()}, (err, categoryDB) => {
+
 
     if (err) {
       return res.status(502).json({
@@ -33,14 +36,14 @@ app.get('/bycategory/:cat', async (req, res) => {
     var query = { category: new ObjectId(categoryDB[0]._id)}
     
     Product.find( query, 'name salePrice promotionOn referenceNumberCommon totalStock img accesory')
-    .limit(20)
-    // .skip(from)
+    .skip(from)
+    .limit(totalPerPage)
     .exec((err, productsDB) => {
       if (err) {
         return res.status(502).json({
           success: false,
           err,
-          message: 'Ha ocurrido un error crear al obtener los productos por categoria'
+          message: 'Ha ocurrido un error al obtener los productos por categoria'
         })
       }
       if (!productsDB) {
@@ -56,10 +59,21 @@ app.get('/bycategory/:cat', async (req, res) => {
           message: 'No hay productos'
         })
       }
-      return res.status(200).json({
-        success: true,
-        productsDB,
-        message: 'Productos encontrados:'
+      
+      Product.count({}, (err, total) => {
+        if (err) {
+          return res.status(404).json({
+            success: false,
+            message: 'No hay productos'
+          })
+        }
+
+        return res.status(200).json({
+          success: true,
+          productsDB,
+          total,
+          message: 'Productos encontrados:'
+        })
       })
     })
   })
