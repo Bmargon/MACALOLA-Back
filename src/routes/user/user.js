@@ -9,16 +9,10 @@ const { welcomeEmial } = require('../../controllers/emailSender')
 app.post('/user', (req, res, next) => {
 
   let body = req.body
-  
   let user  = new User({
     name: body.name,
-    username: body.username,
     email: body.email,
     password: bcrypt.hashSync(body.password, 4),
-    bdate: body.bdate,
-    genre: body.genre,
-    adress: body.adress,
-    tlf: body.tlf,
     subscribe: body.subscribe,
     role: body.role || 'USER'
   })
